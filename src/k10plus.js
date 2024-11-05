@@ -10,6 +10,11 @@ var parser = new DOMParser();
 var apiCall = "https://sru.kobv.de/k2?version=1.1&operation=searchRetrieve&query=dc.identifier%3D";
 var suffix = "&startRecord=1&maximumRecords=10&recordSchema=marcxml&recordPacking=xml&stylesheet=";
 
+const date = new Date(Date.now())
+var collection = new Zotero.Collection();
+collection.name = "ISBN2RVK_" + date.toISOString()
+await collection.saveTx();
+
 for (let item of items) {
     var txt = "";
     var query = item.getField('ISBN');
@@ -26,8 +31,11 @@ for (let item of items) {
         while ((node2 = test2.iterateNext())) {
             RVK.push(node2["innerHTML"]);
         }
-    } 
+    }
+
+    
     item.setField('archiveLocation', RVK[0]);
+    item.addToCollection(collection.key);
     await item.saveTx();
     return RVK[0];
 }
