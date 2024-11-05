@@ -16,16 +16,24 @@ for (let item of items) {
     let data = await Zotero.HTTP.request("GET", apiCall + query + suffix);
     let xmlDoc = data.responseXML;
     let test = xmlDoc.evaluate("//zs:records/zs:record/zs:recordData",xmlDoc,namespace,XPathResult.ANY_TYPE,null);
-    var result = test.iterateNext();
-    var xmlDoc2 = parser.parseFromString(result["innerHTML"],"text/html");
-    var test2 = xmlDoc2.evaluate("//datafield[@tag='084' and subfield[@code='2'] = 'rvk']/subfield[@code='a']",xmlDoc2,namespace2,XPathResult.ANY_TYPE,null);
-    var result2 = test2.iterateNext();
+    
+    let node = null;
+    const RVK = [];
+    while ((node = result.iterateNext())) {
+        var result = test.iterateNext();
+        var xmlDoc2 = parser.parseFromString(result["innerHTML"],"text/html");
+        var test2 = xmlDoc2.evaluate("//datafield[@tag='084' and subfield[@code='2'] = 'rvk']/subfield[@code='a']",xmlDoc2,namespace2,XPathResult.ANY_TYPE,null);
+        var result2 = test2.iterateNext();
+        
+        RVK.push(result2["innerHTML"]);
+    } 
     
     //return data['response'];
     //return xmlDoc;
-    return test;
+    //return test;
     //return result["innerHTML"];
     //return result2["innerHTML"];
+    return RVK;
 }
 
 function namespace() {
