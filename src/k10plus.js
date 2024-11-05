@@ -1,5 +1,9 @@
-// API = https://sru.kobv.de/k2
+// API = https://wiki.k10plus.de/display/K10PLUS/SRU
 // Using ISBN
+// https://services.dnb.de/sru/dnb?version=1.1&operation=searchRetrieve&query=NUM%3D978-3-8353-0636-3&recordSchema=MARC21-xml
+// https://sru.kobv.de/k2?version=1.1&operation=searchRetrieve&query=dc.identifier%3D978-3-8353-0636-3&startRecord=1&maximumRecords=10&recordSchema=marcxml&recordPacking=xml
+
+// titleInfo
 
 var items = Zotero.getActiveZoteroPane().getSelectedItems();
 var parser = new DOMParser();
@@ -23,8 +27,9 @@ for (let item of items) {
             RVK.push(node2["innerHTML"]);
         }
     } 
-    
-    return RVK;
+    item.setField('archiveLocation', RVK[0]);
+    await item.saveTx();
+    return RVK[0];
 }
 
 function namespace() {
