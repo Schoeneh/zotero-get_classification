@@ -19,8 +19,8 @@ for (let item of items) {
     
     let node = null;
     const RVK = [];
-    while ((node = result.iterateNext())) {
-        var result = test.iterateNext();
+    while ((node = test.iterateNext())) {
+        //var result = test.iterateNext();
         var xmlDoc2 = parser.parseFromString(result["innerHTML"],"text/html");
         var test2 = xmlDoc2.evaluate("//datafield[@tag='084' and subfield[@code='2'] = 'rvk']/subfield[@code='a']",xmlDoc2,namespace2,XPathResult.ANY_TYPE,null);
         var result2 = test2.iterateNext();
