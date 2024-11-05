@@ -1,9 +1,5 @@
-// API = https://wiki.k10plus.de/display/K10PLUS/SRU
+// API = https://sru.kobv.de/k2
 // Using ISBN
-// https://services.dnb.de/sru/dnb?version=1.1&operation=searchRetrieve&query=NUM%3D978-3-8353-0636-3&recordSchema=MARC21-xml
-// https://sru.kobv.de/k2?version=1.1&operation=searchRetrieve&query=dc.identifier%3D978-3-8353-0636-3&startRecord=1&maximumRecords=10&recordSchema=marcxml&recordPacking=xml
-
-// titleInfo
 
 var items = Zotero.getActiveZoteroPane().getSelectedItems();
 var parser = new DOMParser();
@@ -20,22 +16,14 @@ for (let item of items) {
     let node = null;
     const RVK = [];
     while ((node = test.iterateNext())) {
-        //var result = test.iterateNext();
         var xmlDoc2 = parser.parseFromString(node["innerHTML"],"text/html");
         var test2 = xmlDoc2.evaluate("//datafield[@tag='084' and subfield[@code='2'] = 'rvk']/subfield[@code='a']",xmlDoc2,namespace2,XPathResult.ANY_TYPE,null);
         
         while ((node2 = test2.iterateNext())) {
-            //var result2 = test2.iterateNext();
             RVK.push(node2["innerHTML"]);
         }
-        
     } 
     
-    //return data['response'];
-    //return xmlDoc;
-    //return test;
-    //return result["innerHTML"];
-    //return result2["innerHTML"];
     return RVK;
 }
 
